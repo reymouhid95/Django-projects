@@ -1,0 +1,42 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'polls/style.css' %}" />
+
+<div class="polls-container">
+  <h1 class="polls-title">Mes sondages</h1>
+
+  <a href="{% url 'polls:create' %}" class="action-button create-button"
+    >Créer</a
+  >
+
+  {% if latest_question_list %}
+  <ul class="polls-list">
+    {% for question in latest_question_list %}
+    <li class="poll-item">
+      <div class="poll-info">
+        <a href="{% url 'polls:detail' question.id %}" class="poll-link"
+          >{{ question.question_text }}</a
+        >
+        <span class="poll-date"
+          >Publié le {{ question.pub_date|date:"d M Y à H:i" }}</span
+        >
+      </div>
+      <div class="poll-actions">
+        <a
+          href="{% url 'polls:update' question.id %}"
+          class="action-button update-button"
+          >Modifier</a
+        >
+        <a
+          href="{% url 'polls:delete' question.id %}"
+          class="action-button delete-button"
+          >Supprimer</a
+        >
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="no-polls">Aucun sondage n'est disponible pour le moment.</p>
+  {% endif %}
+</div>

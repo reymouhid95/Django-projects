@@ -1,0 +1,30 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'polls/style.css' %}" />
+
+<div class="polls-container">
+  <h1 class="poll-question">Supprimer le sondage</h1>
+
+  <div class="delete-confirmation">
+    <p class="confirmation-message">
+      Êtes-vous sûr de vouloir supprimer le sondage :
+      <strong>"{{ question.question_text }}"</strong> ?
+    </p>
+
+    <p class="warning-message">
+      Cette action est irréversible et supprimera également tous les choix et
+      votes associés.
+    </p>
+  </div>
+
+  <form method="post" class="delete-form">
+    {% csrf_token %}
+    <div class="form-actions">
+      <button type="submit" class="action-button delete-button">
+        Confirmer
+      </button>
+      <a href="{% url 'polls:index' %}" class="action-button cancel-button"
+        >Annuler</a
+      >
+    </div>
+  </form>
+</div>

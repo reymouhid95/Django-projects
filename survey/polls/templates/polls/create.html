@@ -1,0 +1,30 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'polls/style.css' %}" />
+
+<div class="polls">
+  <h1 class="titre">Créer un nouveau sondage</h1>
+
+  <form method="post" class="polls-form" id="polls-form">
+    {% csrf_token %} {{ question_form.as_p }}
+    <div id="choices">
+      {% for choice_form in choice_forms %}
+      <div class="choice-form">{{ choice_form.as_p }}</div>
+      {% endfor %}
+    </div>
+    <button type="button" id="add-choice" class="btn-add">
+      Ajouter un choix
+    </button>
+    <input
+      type="hidden"
+      name="choice_count"
+      id="choice-count"
+      value="{{ choice_forms|length }}"
+    />
+    <button type="submit" class="btn-submit">Créer le sondage</button>
+  </form>
+
+  <a href="{% url 'polls:index' %}" class="btn-back">Retour à la liste</a>
+</div>
+
+<script src="{% static 'polls/js/create_poll.js' %}"></script>

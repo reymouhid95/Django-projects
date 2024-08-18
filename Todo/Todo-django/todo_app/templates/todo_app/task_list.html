@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liste de tâches</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Ma liste de tâches</h1>
+      <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">Ajouter une tâche</button>
+      </form>
+      <ul class="task-list">
+        {% for task in tasks %}
+        <li class="task-item {% if task.completed %}completed{% endif %}">
+          <span>{{ task.title }}</span>
+          <div class="task-actions">
+            <form method="post" action="{% url 'task_toggle' task.id %}">
+              {% csrf_token %}
+              <button type="submit">
+                {% if task.completed %}Annuler{% else %}Terminer{% endif %}
+              </button>
+            </form>
+            <a href="{% url 'task_update' task.id %}" class="edit-link"
+              >Modifier</a
+            >
+            <form method="post" action="{% url 'task_delete' task.id %}">
+              {% csrf_token %}
+              <button type="submit">Supprimer</button>
+            </form>
+          </div>
+          {% empty %}
+        </li>
+
+        <li>Aucune tâche pour le moment.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>

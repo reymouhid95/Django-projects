@@ -1,0 +1,32 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'polls/style.css' %}" />
+
+<div class="results-container">
+  <h1 class="question-title">{{ question.question_text }}</h1>
+
+  <ul class="choice-list">
+    {% for choice in question.choice_set.all %}
+    <li class="choice-item">
+      <div class="choice-text">{{ choice.choice_text }}</div>
+      <div class="vote-bar-container">
+        <div
+          class="vote-bar"
+          style="width: {% widthratio choice.votes question.choice_set.count 100 %}%;"
+        ></div>
+      </div>
+      <div class="vote-count">
+        {{ choice.votes }} vote{{ choice.votes|pluralize }}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="form-actions">
+    <a href="{% url 'polls:detail' question.id %}" class="vote-again-btn"
+      >Voter encore</a
+    >
+    <a href="{% url 'polls:index' %}" class="action-button cancel-button"
+      >Liste</a
+    >
+  </div>
+</div>
